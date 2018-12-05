@@ -1,0 +1,68 @@
+﻿/* Criação da tabela Usuarios */
+CREATE TABLE usuario
+(
+  id_user serial NOT NULL,
+  nome character varying(150) NOT NULL,
+  login character varying(50) NOT NULL,
+  senha character varying(50) NOT NULL,
+  email character varying(80) NOT NULL,
+  dtinclusao date,
+  status boolean,
+  CONSTRAINT id_user PRIMARY KEY (id_user)
+);
+
+
+/* Criação da tabela Tipos de Equipamentos */
+CREATE TABLE tipo_equipamento
+(
+  id_tpequip serial NOT NULL,
+  nome character varying(150) NOT NULL,
+  dtinclusao date,
+  CONSTRAINT id_tpequip PRIMARY KEY (id_tpequip)
+);
+
+
+/* Criação da tabela Setor */
+CREATE TABLE setor
+(
+  id_setor serial NOT NULL,
+  nome character varying(150) NOT NULL,
+  dtinclusao date,
+  CONSTRAINT id_setor PRIMARY KEY (id_setor)
+);
+
+/* Criação da tabela Equipamentos */
+CREATE TABLE equipamento
+(
+  id_equip serial NOT NULL,
+  nome character varying(150) NOT NULL,
+  marca character varying(100) NOT NULL,
+  modelo character varying(100) NOT NULL,
+  tipo_equipamento_id integer NOT NULL,
+  status character varying(100) NOT NULL,
+  tempo_uso integer NOT NULL,
+  garantia boolean NOT NULL,
+  dt_inicio_garantia date,
+  dt_fim_garantia date,
+  CONSTRAINT id_equip PRIMARY KEY (id_equip),
+  CONSTRAINT tipo_equipamento_id FOREIGN KEY (tipo_equipamento_id)
+  REFERENCES tipo_equipamento (id_tpequip)
+);
+
+/* Criação da tabela Equipamentos Usuários*/
+CREATE TABLE equipamento_usuario
+(
+  id serial NOT NULL,
+  equipamento_id integer NOT NULL,
+  usuario_id integer NOT NULL,
+  setor_id integer NOT NULL,
+  status character varying(100) NOT NULL,
+  dtinclusao date,
+  CONSTRAINT id PRIMARY KEY (id),
+  CONSTRAINT equipamento_id FOREIGN KEY (equipamento_id)
+  REFERENCES equipamento (id_equip),
+  CONSTRAINT usuario_id FOREIGN KEY (usuario_id)
+  REFERENCES usuario (id_user),
+  CONSTRAINT setor_id FOREIGN KEY (setor_id)
+  REFERENCES setor (id_setor)
+);
